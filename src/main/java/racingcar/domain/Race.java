@@ -5,15 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Race {
-    private final List<Car> cars = new ArrayList<>();
+    private List<Car> cars = new ArrayList<>();
     private final int raceNum;
 
-    public Race(List<String> car, int raceNum) {
+    public Race(List<String> carNames, int raceNum) {
+        this.cars = createCars(carNames);
         this.raceNum = raceNum;
     }
 
-    public void addCar(Car car) {
-        cars.add(car);
+    //자동차 이름을 입력 받아 리스트에 넣어 각각 car 객체로 만듦
+    private List<Car> createCars(List<String> carNames) {
+        for (String name : carNames) {
+            cars.add(new Car(name));
+        }
+        return cars;
     }
 
     public List<Car> getCars() {
@@ -34,6 +39,9 @@ public class Race {
         }
     }
 
+    public int maxPosition() {
+        return cars.stream().mapToInt(Car::getPosition).max().orElse(0);
+    }
 
     public List<String> findWinners(int maxPosition) {
         List<String> winners = new ArrayList<>();
